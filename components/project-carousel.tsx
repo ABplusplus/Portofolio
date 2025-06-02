@@ -75,6 +75,16 @@ export default function ProjectCarousel({ images, autoplay = true, interval = 50
     setModalOpen(true)
   }
 
+  // Helper function to get the correct image path
+  const getImagePath = (path: string) => {
+    if (!path) return ""
+    // If the path already includes the base path, don't add it again
+    if (path.includes("/Portofolio") || !path.startsWith("/")) return path
+
+    const basePath = process.env.NODE_ENV === "production" ? "/Portofolio" : ""
+    return `${basePath}${path}`
+  }
+
   if (images.length === 0) {
     return (
       <div className="w-full h-64 bg-muted flex items-center justify-center rounded-t-lg">
@@ -92,7 +102,7 @@ export default function ProjectCarousel({ images, autoplay = true, interval = 50
       <AnimatePresence initial={false} custom={direction} mode="wait">
         <motion.img
           key={currentIndex}
-          src={images[currentIndex].src}
+          src={getImagePath(images[currentIndex].src)}
           alt={images[currentIndex].alt}
           custom={direction}
           variants={slideVariants}

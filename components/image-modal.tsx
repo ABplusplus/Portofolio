@@ -5,6 +5,7 @@ import type React from "react"
 import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
 
 interface ImageModalProps {
   isOpen: boolean
@@ -14,12 +15,33 @@ interface ImageModalProps {
 }
 
 export default function ImageModal({ isOpen, onClose, imageSrc, imageAlt }: ImageModalProps) {
+  const [loaded, setLoaded] = useState(false)
+
+  // Reset loaded state when image changes
+  useEffect(() => {
+    setLoaded(false)
+  }, [imageSrc])
+
   if (!isOpen) return null
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose()
     }
+  }
+
+  const handleImageLoad = () => {
+    setLoaded(true)
+  }
+
+  // Helper function to get the correct image path
+  const getImagePath = (path: string) => {
+    if (!path) return ""
+    // If the path already includes the base path, don't add it again
+    if (path.includes("/Portofolio") || !path.startsWith("/")) return path
+
+    const basePath = process.env.NODE_ENV === "production" ? "/Portofolio" : ""
+    return `${basePath}${path}`
   }
 
   return (
@@ -52,11 +74,25 @@ export default function ImageModal({ isOpen, onClose, imageSrc, imageAlt }: Imag
               </Button>
             </div>
 
-            <div className="w-full h-full flex items-center justify-center p-2">
+            <div className="w-full h-full flex items-center justify-center p-4">
+              {!loaded && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
               <img
-                src={imageSrc || "/placeholder.svg"}
+                src={getImagePath(imageSrc) || "/placeholder.svg"}
                 alt={imageAlt}
-                className="max-w-full max-h-[85vh] object-contain rounded-md"
+                onLoad={handleImageLoad}
+                className={`max-w-full max-h-[80vh] object-contain rounded-md transition-opacity duration-300 ${
+                  loaded ? "opacity-100" : "opacity-0"
+                }`}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                  maxWidth: "100%",
+                  maxHeight: "80vh",
+                }}
               />
             </div>
           </motion.div>
