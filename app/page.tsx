@@ -33,6 +33,12 @@ import LanguageCVButton from "@/components/language-cv-button"
 import { useLanguage } from "@/contexts/language-context"
 import ImageModal from "@/components/image-modal"
 
+// Helper function to get the correct image path
+const getImagePath = (path: string) => {
+  const basePath = process.env.NODE_ENV === "production" ? "/Portofolio" : ""
+  return `${basePath}${path}`
+}
+
 export default function Home() {
   const { t } = useLanguage()
   const { toast } = useToast()
@@ -89,7 +95,7 @@ export default function Home() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   }
 
-  // Project data
+  // Project data with corrected image paths
   const projects = [
     {
       id: 0,
@@ -98,19 +104,19 @@ export default function Home() {
       longDescription: t("projects.cineList.longDescription"),
       images: [
         {
-          src: "/images/cinelist-home.png",
+          src: getImagePath("/images/cinelist-home.png"),
           alt: "CineList home screen showing featured shows and new episodes",
         },
         {
-          src: "/images/cinelist-browse.png",
+          src: getImagePath("/images/cinelist-browse.png"),
           alt: "CineList browse screen showing anime and TV shows",
         },
         {
-          src: "/images/cinelist-show-details.png",
+          src: getImagePath("/images/cinelist-show-details.png"),
           alt: "CineList show details screen with episode information",
         },
         {
-          src: "/images/cinelist-wwe.png",
+          src: getImagePath("/images/cinelist-wwe.png"),
           alt: "CineList detailed view of WWE Raw with show information",
         },
       ],
@@ -154,19 +160,19 @@ export default function Home() {
       longDescription: t("projects.planty.longDescription"),
       images: [
         {
-          src: "/images/planty-dashboard.png",
+          src: getImagePath("/images/planty-dashboard.png"),
           alt: "Planty dashboard showing list of plants with their watering modes",
         },
         {
-          src: "/images/planty-history.png",
+          src: getImagePath("/images/planty-history.png"),
           alt: "Planty watering history screen showing automatic and manual watering events",
         },
         {
-          src: "/images/planty-account.png",
+          src: getImagePath("/images/planty-account.png"),
           alt: "Planty account settings with notification preferences",
         },
         {
-          src: "/images/planty-login.png",
+          src: getImagePath("/images/planty-login.png"),
           alt: "Planty login screen with email and password fields",
         },
       ],
@@ -210,19 +216,19 @@ export default function Home() {
       longDescription: t("projects.barrier.longDescription"),
       images: [
         {
-          src: "/images/barrier-screentime.png",
+          src: getImagePath("/images/barrier-screentime.png"),
           alt: "Barrier screen time monitoring dashboard showing app usage statistics",
         },
         {
-          src: "/images/barrier-location.png",
+          src: getImagePath("/images/barrier-location.png"),
           alt: "Barrier location tracking feature showing child's location on a map",
         },
         {
-          src: "/images/barrier-request-time.png",
+          src: getImagePath("/images/barrier-request-time.png"),
           alt: "Barrier screen time request feature for children to request additional time",
         },
         {
-          src: "/images/barrier-login.png",
+          src: getImagePath("/images/barrier-login.png"),
           alt: "Barrier app login screen with secure authentication",
         },
       ],
@@ -266,19 +272,19 @@ export default function Home() {
       longDescription: t("projects.game.longDescription"),
       images: [
         {
-          src: "/images/zombie-sheriff-gameplay.png",
+          src: getImagePath("/images/zombie-sheriff-gameplay.png"),
           alt: "Zombie Sheriff gameplay showing the player fighting zombies",
         },
         {
-          src: "/images/zombie-sheriff-shield.png",
+          src: getImagePath("/images/zombie-sheriff-shield.png"),
           alt: "Zombie Sheriff special ability shield activation",
         },
         {
-          src: "/images/zombie-sheriff-gameover.png",
+          src: getImagePath("/images/zombie-sheriff-gameover.png"),
           alt: "Zombie Sheriff game over screen showing survival time",
         },
         {
-          src: "/images/zombie-sheriff-unity.png",
+          src: getImagePath("/images/zombie-sheriff-unity.png"),
           alt: "Zombie Sheriff made with Unity splash screen",
         },
       ],
@@ -336,7 +342,7 @@ export default function Home() {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="text-xl md:text-2xl text-muted-foreground mb-6"
         >
-          Mobile / Full Stack Developer
+          {t("hero.title")}
         </motion.h2>
 
         <motion.p

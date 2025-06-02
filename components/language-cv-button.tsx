@@ -11,10 +11,16 @@ interface LanguageCVButtonProps {
 export default function LanguageCVButton({ className }: LanguageCVButtonProps) {
   const { language, t } = useLanguage()
 
+  // Helper function to get the correct CV path
+  const getCVPath = (lang: string) => {
+    const basePath = process.env.NODE_ENV === "production" ? "/Portofolio" : ""
+    return `${basePath}/cv/abdellah-boussaha-cv-${lang}.pdf`
+  }
+
   // Define CV URLs based on language
   const cvUrls = {
-    en: "/cv/abdellah-boussaha-cv-en.pdf",
-    fr: "/cv/abdellah-boussaha-cv-fr.pdf",
+    en: getCVPath("en"),
+    fr: getCVPath("fr"),
   }
 
   return (
